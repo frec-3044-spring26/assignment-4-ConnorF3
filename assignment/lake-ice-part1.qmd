@@ -180,19 +180,21 @@ ggplot(sunapee, aes(x = resid)) +
        x = "Residuals",
        y = "Count")
 ```
-
+The residuals are approximately centered around zero, so it satisfies one of the key assumptions of linear regression. The distribution of the histogram is roughly bell shaped, maybe leaning towards a left skew shape due to larger negative residuals.  
 
 ## The slope is different from zero
 
 A slope could appear to be higher or lower than zero, but the uncertainty in the slope is large enough that there is a chance that the slope value is 0 (thus limiting our capacity to believe the value for the slope is not zero). Here, we will focus on the p-value of the slope. The p-value is the probability of obtaining a slope at least as extreme as the one calculated from the data, assuming the truth of the null hypothesis that the slope is 0 (from <https://en.wikipedia.org/wiki/P-value>). In this case, what is the probability of observing our slope value assuming the actual slope is 0? Smaller probabilities mean there is a lower chance that our slope is equal to 0.
 
-The residuals are approximately centered around zero, so it satisfies one of the key assumptions of linear regression. The distribution of the histogram is roughly bell shaped, maybe leaning towards a left skew shape due to larger negative residuals.  
 
 **Question 7:**
 
 Based on the `summary()` above, what is the p-value for the slope?
 
 **Answer 7:**
+
+The p-value for the slope is 2.5e-09, so very very small, providing strong evidence that slope is different from zero. So we reject that the slope is equal to 0.
+
 
 ## The slope physically meaningful
 
@@ -204,6 +206,8 @@ Based on the slope value, how many more years are needed to pass before the lake
 
 **Answer 8:**
 
+The slope is -.10602, so ice off date is occurring .106 days earlier than the year prior. So 7 / .10602 = 66. So it would take 66 years to experience ice off date a week earlier. Yes, I think this is very meaning full it may seem like a long time for us in years, but with that much change in the climate in a small time frame seems meaning ful for climate implications.
+
 ## Overall model assessment
 
 **Question 9:**
@@ -211,6 +215,10 @@ Based on the slope value, how many more years are needed to pass before the lake
 How comfortable are you proceeding with using this linear model for additional analysis and prediction? Why? (I am not looking for your gut answer, rather I want you to apply concepts taught in this module to justify your answer)
 
 **Answer 9:**
+
+I am moderately comfortable using this linear model for additional analysis. The slope is highly statistically significant p = 2.5e-09, and the residuals appear approximately normally distributed and centered around zero, satisfying key regression assumptions.
+
+However, the R2 value is 0.2055, meaning that only about 20.5% of the variation in ice-off date is explained by year alone. The model is useful for identifying long-term trends but may have limited predictive power and should be used cautiously for forecasting.
 
 **Question 10:**
 Now plot the data for Lake Sunapee (just like above - year on x-axis vs. ice of doy on y axis) but add the line from your regression results (e.g., fit intercept and slope). You will use the [`geom_abline`](https://ggplot2.tidyverse.org/reference/geom_abline.html). 
