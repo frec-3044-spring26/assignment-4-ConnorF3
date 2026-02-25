@@ -123,6 +123,8 @@ First, it is important to understand how much variation is explained by the mode
 
 What is the R2 for the regression? Based on the R2, is `year` and `ice_off_doy` strongly related?
 
+The R2 for the regression based off year and ice of doy is .2055, so a fairly weak relation between the two variables.
+
 **Answer 4:**
 
 ## Residuals normally distributed
@@ -146,6 +148,7 @@ You will use a histogram to examine the residuals. First, the code uses the coef
 sunapee <- sunapee %>% 
   mutate(predicted = fit$coefficients[1] + year * fit$coefficients[2], 
          residual = ice_off_doy - predicted) #Observed - Predicted
+head(sunapee)
 ```
 
 **Question 5:**
@@ -155,7 +158,11 @@ Use the [`add_predictions()`](https://modelr.tidyverse.org/reference/add_predict
 **Answer 5:**
 
 ```{r}
+library(modelr)
 
+sunapee <- sunapee %>%
+  add_predictions(fit) %>%
+  add_residuals(fit)
 ```
 
 Now, to visualize the residuals, use `geom_histogram()` to plot them as a histogram. I recommend using a bin width of 10 in the histogram.
@@ -167,13 +174,19 @@ Show Histogram and answer the following question: do the residuals meet the assu
 **Answer 6:**
 
 ```{r}
-
+ggplot(sunapee, aes(x = resid)) +
+  geom_histogram(binwidth = 5) +
+  labs(title = "Histogram of Residuals",
+       x = "Residuals",
+       y = "Count")
 ```
 
 
 ## The slope is different from zero
 
 A slope could appear to be higher or lower than zero, but the uncertainty in the slope is large enough that there is a chance that the slope value is 0 (thus limiting our capacity to believe the value for the slope is not zero). Here, we will focus on the p-value of the slope. The p-value is the probability of obtaining a slope at least as extreme as the one calculated from the data, assuming the truth of the null hypothesis that the slope is 0 (from <https://en.wikipedia.org/wiki/P-value>). In this case, what is the probability of observing our slope value assuming the actual slope is 0? Smaller probabilities mean there is a lower chance that our slope is equal to 0.
+
+The residuals are approximately centered around zero, so it satisfies one of the key assumptions of linear regression. The distribution of the histogram is roughly bell shaped, maybe leaning towards a left skew shape due to larger negative residuals.  
 
 **Question 7:**
 
